@@ -1,0 +1,10 @@
+{% extends 'admin/base.html' %}
+
+{% block body %}
+    {% if current_user.is_authenticated %}
+        <h1 class="text-info">WELCOM <span class="text-danger">{{ current_user.name }}</span> TO OUR WEBSITE!!!</h1>
+    {% else %}
+        <h1 class="text-danger">Rất tiếc, bạn không có quyền thực thi trang này</h1>
+        <h2>Quay về <a href="/" class="text-info">TRANG CHỦ</a>  để ĐĂNG NHẬP</h2>
+    {% endif %}
+{% endblock %}

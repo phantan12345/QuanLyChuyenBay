@@ -1,0 +1,77 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row" style="margin-top:20px">
+        <div class="places">
+            <h2 style="color:blue"> Tra cứu chuyến bay: </h2>
+            <div class="flex flex-row places"  >
+                <div class="flex flex-wrap from-place">
+                    <span>Từ</span>
+                    <input id="from" type="text" class="form-control" list="f_airports" name="from"
+                           placeholder="Chọn nơi đi...">
+                    <datalist id="f_airports">
+                        {% for a in airports %}
+                        <option value="{{ a.location }}">
+                            {% endfor %}
+                    </datalist>
+                </div>
+
+<!--                <div class="flex flex-wrap to-place">-->
+<!--                    <span>Đến</span>-->
+<!--                    <input id="to" type="text" class="form-control" list="t_airports" name="to"-->
+<!--                           placeholder="Chọn nơi đến...">-->
+<!--                    <datalist id="t_airports">-->
+<!--                        {% for a in airports %}-->
+<!--                        <option value="{{ a.location }}">-->
+<!--                            {% endfor %}-->
+<!--                    </datalist>-->
+<!--                </div>-->
+
+                <div class="flex flex-wrap bt-search " style="margin-top:20px">
+                    <button onclick="filter_details_ticket()"  class="block curser-pointer flex flex-nowrap btn-search">Tìm kiếm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="flex flex-wrap flex-row" style="margin-top:20px; width:100%">
+    <table class="table border-table">
+        <thead class="header-table">
+        <tr>
+            <th>Tuyến bay</th>
+            <th>Máy bay</th>
+            <th>Thời gian khởi hành</th>
+            <th>Thời gian kết thúc</th>
+        </tr>
+
+        </thead>
+        <tbody id="filter_flight">
+        {% for i in range(flights_num)%}
+        <tr>
+            <td>{{flights[i].airlines.name}}</td>
+            <td>{{flights[i].plane_id}}</td>
+            <td>{{flights[i].departing_at}}</td>
+            <td>{{flights[i].arriving_at}}</td>
+            <td>
+                <a href="/flight/{{flights[i].id}}"
+                   class="block curser-pointer flex flex-nowrap btn-choose"
+                   style=" background-color: #4CAF50;
+                    border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;">Chọn</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script src="{{ url_for('static', filename='js/bookticket.js') }}"></script>
+
+{% endblock %}

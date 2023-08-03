@@ -1,0 +1,99 @@
+{% extends 'admin/base.html' %}
+
+{% block body %}
+<h1 class="text-center text-primary" style="margin: 20px 0px;">THỐNG KÊ DOANH THU THEO THÁNG</h1>
+
+<div class="row">
+    <div class="col-md-12 col xs-12">
+        <table class="table">
+            <tr>
+                <th>Mã tuyến bay</th>
+                <th>Tên tuyến bay</th>
+                <th>Doanh thu</th>
+                <th>Tổng lượt bay</th>
+            </tr>
+            {% if total > 0 %}
+            {% for s in statistics %}
+            <tr>
+                <td>{{ s[0] }}</td>
+                <td>{{ s[1] }}</td>
+                <td>
+                    {% if s[2] %}
+                    {{ "{:,.1f}".format(s[2]) }} VNĐ
+                    {% else %}
+                    0 VNĐ
+                    {% endif %}
+                </td>
+                <td>{{ s[3] }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <th scope="row">Tổng doanh thu:</th>
+                <th scope="row">{{ "{:,.1f}".format(total) }} VNĐ</th>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="999">
+                    <div class="text-center text-danger">
+                        Không có mục nào trong bảng.
+                    </div>
+                </td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+    <div class="col-md-4 col xs-12">
+        <h5 class="text-center text-info"> LỌC DỮ LIỆU </h5>
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control" required
+                       id="airline_name" name="airline_name" placeholder="Nhập tên tuyến bay...">
+            </div>
+            <div class="form-group">
+                <input type="month" class="form-control" name="month" required
+                       id="month" placeholder="Nhập tháng năm..."/>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" name="statistics"
+                       id="submit" value="Thống kê"/>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8 col xs-12">
+        <canvas id="revenueChart"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block tail_js %}
+    {{ super() }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/statistics.js') }}"></script>
+<script>
+    let labels = []
+    let data = []
+    let colors = []
+    let borderColors = []
+    let r, g, b
+
+    {% for s in statistics %}
+    {% if s[2] %}
+    labels.push('{{ s[1] }}')
+    data.push({{ s[2] }})
+
+    r = parseInt(Math.random() * 255)
+    g = parseInt(Math.random() * 255)
+    b = parseInt(Math.random() * 255)
+
+    colors.push(`rgba(${r}, ${g}, ${b}, 0.2)`)
+    borderColors.push(`rgba(${r}, ${g}, ${b}, 0.4)`)
+    {% endif %}
+    {% endfor %}
+
+    window.onload = () => {
+        const ctx = document.getElementById('revenueChart').getContext('2d')
+
+        loadChart(ctx, labels, data, 'bar', colors, borderColors)
+    }
+</script>
+{% endblock %}

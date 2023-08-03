@@ -1,0 +1,93 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+
+{% if current_user.is_authenticated %}
+<form action="/get_booking" method="post">
+    <section class="booking">
+
+        <div class="booking-search-form">
+            <form action="/booking" method="post">
+                <h2 class="content-header" style="color: blue">Thông tin khách hàng</h2>
+                <div>
+                    <span>Họ và tên khách hàng</span>
+                    <input type="text" required name="name" class="form-control" style="width: 100%"
+                           placeholder="Nhập tên khách hàng...">
+                </div>
+                <div>
+                    <span>Ngày tháng năm sinh</span>
+                    <input type="date" id="bday" name="birthday" class="form-control" style="width: 100%">
+                </div>
+                <div>
+                    <span>Điện thoại</span>
+                    <input type="text" required name="sdt" class="form-control" style="width: 100%"
+                           placeholder="Nhập số điện thoại...">
+                </div>
+                <div>
+                    <span>Email</span>
+                    <input type="text" id="mail" required name="email" class="form-control" style="width: 100%"
+                           placeholder="Nhập email...">
+                </div>
+                <h2 class="content-header" style="color: blue">Thông tin chuyến bay</h2>
+                <div class="flex flex-wrap justify-start booking-form">
+                    <div class="flex type-ticket">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="khuhoi" name="optradio"
+                                   value="khứ hồi" checked>Khứ hồi
+                            <label class="form-check-label" for="khuhoi"></label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="motchieu" name="optradio"
+                                   value="một chiều">Một chiều
+                            <label class="form-check-label" for="motchieu"></label>
+                        </div>
+
+                        <div>
+                            <label for="rank">Hạng vé</label>
+                            <select name="rank" id="rank">
+                                <option value="1">Hạng 1</option>
+                                <option value="2">Hạng 2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex justify-start booking-form-content">
+                        <div class="flex flex-row places">
+                            <div class="flex flex-wrap from-place">
+                                <span>Mã chuyến bay</span>
+                                <input type="text" class="form-control" list="f_airports" name="from"
+                                       placeholder="Chọn mã chuyến bay...">
+                                <datalist id="f_airports">
+                                    {% for a in flights %}
+                                    <option value="{{ a.id }}">
+                                        {% endfor %}
+                                </datalist>
+                            </div>
+
+
+                        </div>
+                        <div class="flex flex-row date">
+                            <div class="flex flex-wrap from-date">
+                                <span>Ngày đi</span>
+                                <input type="date" id="from_date" name="from_date" class="form-control">
+                            </div>
+                            <div class="flex flex-wrap to-date">
+                                <span>Ngày về</span>
+                                <input type="date" id="to_date" name="to_date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap bt-search">
+                            <button class="block curser-pointer flex flex-nowrap btn-search">Đặt vé</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </section>
+</form>
+{% else %}
+<h1>ban phai dang nhap </h1>
+{% endif %}
+
+{% endblock %}

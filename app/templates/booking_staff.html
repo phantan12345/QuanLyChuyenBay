@@ -1,0 +1,150 @@
+<!--booking for staff-->
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<section class="booking-staff">
+    <div class="header-content">
+        <h1>ĐẶT VÉ MÁY BAY CHO KHÁCH</h1>
+    </div>
+
+    <span class="content-header">Thông tin khách hàng</span>
+    <div class="form-infocustomer">
+        <form action="/" method="post">
+            <div>
+                <span>Họ và tên khách hàng</span>
+                <input type="text" required name="name" placeholder="Nhập tên khách hàng...">
+            </div>
+            <div>
+                <span>Ngày tháng năm sinh</span>
+                <input type="date" id="bday" name="birthday" class="form-control" style="width: 100%">
+            </div>
+            <div>
+                <span>Điện thoại</span>
+                <input type="text" required name="sdt" placeholder="Nhập số điện thoại...">
+            </div>
+            <div>
+                <span>Email</span>
+                <input type="text" id="mail" required name="email" placeholder="Nhập email...">
+            </div>
+            <div class="httt">
+                <span>Hình thức thanh toán</span>
+                <br>
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" id="tienmat" name="inlineRadioOptions"
+                       value="Tiền mặt" checked>Thanh toán tiền mặt
+                    <label class="form-check-label" for="tienmat"></label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" id="visa" name="inlineRadioOptions"
+                           value="VISA">Thanh toán VISA
+                    <label class="form-check-label" for="visa"></label>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+    <span class="content-header">Thông tin cần thiết khi đặt vé máy bay</span>
+    <div class="booking-search-form">
+        <form action="/" method="post">
+            <div class="flex flex-wrap justify-start booking-form">
+                <div class="flex type-ticket">
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="khuhoi" name="optradio"
+                                   value="khứ hồi" checked>Khứ hồi
+                        <label class="form-check-label" for="khuhoi"></label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="motchieu" name="optradio"
+                                   value="một chiều">Một chiều
+                        <label class="form-check-label" for="motchieu"></label>
+                    </div>
+
+                    <div>
+                        <label for="rank">Hạng vé</label>
+                        <select name="rank" id="rank">
+                            <option value="1">Hạng 1</option>
+                            <option value="2">Hạng 2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-start booking-form-content">
+                    <div class="flex flex-row places">
+                        <div class="flex flex-wrap from-place">
+                            <span>Từ</span>
+                            <input type="text" class="form-control" list="f_airports" name="from"
+                                    placeholder="Chọn nơi đi...">
+                            <datalist id="f_airports">
+                                {% for a in airports %}
+                                    <option value="{{ a.location }}">
+                                {% endfor %}
+                            </datalist>
+                        </div>
+
+                        <div class="flex flex-wrap to-place">
+                            <span>Đến</span>
+                            <input type="text" class="form-control" list="t_airports" name="to"
+                                   placeholder="Chọn nơi đến...">
+                            <datalist id="t_airports">
+                                {% for a in airports %}
+                                    <option value="{{ a.location }}">
+                                {% endfor %}
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="flex flex-row date">
+                        <div class="flex flex-wrap from-date">
+                            <span>Ngày đi</span>
+                            <input type="date" id="from_date" name="from_date" class="form-control">
+                        </div>
+                        <div class="flex flex-wrap to-date">
+                            <span>Ngày về</span>
+                            <input type="date" id="to_date" name="to_date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap bt-search">
+                        <button class="block curser-pointer flex flex-nowrap btn-search">Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="flex flex-wrap flex-row" style="margin-top:20px; width:100%">
+        <table class="table border-table">
+            <thead class="header-table">
+                <tr>
+                <th>Từ</th>
+                <th>Đến</th>
+                <th>Hạng vé</th>
+                <th>Ngày khởi hành</th>
+                <th>Giá</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for t in session['ticket'].values() %}
+                <tr>
+                    <td>{{ t.from }}</td>
+                    <td>{{ t.to }}</td>
+                    <td>{{ t.rank }}</td>
+                    <td>{{ t.fdate }}</td>
+                    <td>{{ "{:,.0f}".format(t.price) }} VNĐ</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+
+
+
+<!--                            <div class="bt">-->
+<!--                                <input type="submit" value="Tìến hành đặt vé"/>-->
+<!--                            </div>-->
+
+
+</section>
+{% endblock %}

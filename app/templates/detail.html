@@ -1,0 +1,42 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<h1 class="text-center text-success">Thông tin chi tiết chuyến bay</h1>
+
+<div class="detail-flight" >
+
+        <h1>{{ flight.name }}</h1>
+        <p>Tuyến bay: {{ flight.airlines.name }}</p>
+        <p>Khởi hành tại: {{ flight.airlines.from_airport.name }}</p>
+        <p>Thời gian đi: {{ flight.departing_at }}</p>
+        <p>Thời gian đến: {{ flight.arriving_at }}</p>
+        <p>Hãng bay: {{ flight.planes.manufacturer }}</p>
+
+        {%if Flight_AirportMedium %}
+        {% for m in Flight_AirportMedium %}
+        <hr>
+        <p>Tên trạm dừng: {{m}}</p>
+        <p>Dừng tại: {{m.airports.name}}</p>
+        <p>Thông báo: {{m.description}}</p>
+        {% endfor %}
+        {%else%}
+        <p>Bay thẳng </p>
+        {% endif%}
+        <hr>
+
+ <a href="/booking"
+                   class="block curser-pointer flex flex-nowrap btn-choose"
+                   style=" background-color: #4CAF50;
+                    border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;">Chọn</a>
+
+</div>
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
+
+
+{% endblock %}

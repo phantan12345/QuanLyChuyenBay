@@ -1,0 +1,126 @@
+{% extends 'admin/model/create.html' %}
+
+{% block create_form %}
+{% if current_user.is_authenticated %}
+<form action="" method="POST" role="form" class="admin-form" enctype="multipart/form-data">
+    <fieldset>
+        {% if sts_msg.__eq__("success") %}
+            {% if am_msg.__eq__("success") or am_msg.__eq__("")%}
+        <div class="alert alert-success">
+            Lưu thành công!
+        </div>
+            {% else %}
+                {% if am_msg != "" %}
+        <div class="alert alert-danger">
+            {{ am_msg }}
+        </div>
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {% if sts_msg != "" %}
+        <div class="alert alert-danger">
+            {{ sts_msg }}
+        </div>
+            {% endif %}
+        {% endif %}
+
+        <p class="text-muted"><strong style="color: red">*</strong> Chú ý: Chuyến bay được áp dụng quy định
+            {% for r in list_regulation %}
+                <span>số {{r}}</span>
+            {% endfor %}
+            khi tạo mới.
+        </p>
+
+        {{ form.csrf_token }}
+        <div class="form-group ">
+            <label class="control-label">Mã chuyến bay
+                <strong style="color: red">*</strong>
+            </label>
+            {{ form.id(class="form-control") }}
+        </div>
+        {{ form.csrf_token }}
+        <div class="form-group ">
+            <label class="control-label">Tên chuyến bay
+                <strong style="color: red">*</strong>
+            </label>
+            {{ form.name(class="form-control") }}
+        </div>
+        {{ form.csrf_token }}
+        <div class="form-group ">
+            <label class="control-label">Thời gian khởi hành
+                <strong style="color: red">*</strong>
+            </label>
+            {{ form.departing_at(class="form-control") }}
+        </div>
+        {{ form.csrf_token }}
+        <div class="form-group ">
+            <label class="control-label">Thời gian đến
+                <strong style="color: red">*</strong>
+            </label>
+            {{ form.arriving_at(class="form-control") }}
+        </div>
+        {{ form.csrf_token }}
+        <div class="form-group ">
+            <label class="control-label">Số hiệu máy bay
+                <strong style="color: red">*</strong>
+            </label>
+            {{ form.planes(class="form-control") }}
+        </div>
+        {{ form.csrf_token }}
+        <div class="form-group ">
+            <label class="control-label">Tuyến bay
+                <strong style="color: red">*</strong>
+            </label>
+            {{ form.airlines(class="form-control") }}
+        </div>
+
+        <hr>
+        <p class="text-muted"><strong style="color: red">*</strong> Chú ý: Trạm dừng được áp dụng quy định
+            {% for r in list_stop_regulation %}
+                <span>số {{r}},</span>
+            {% endfor %}
+            khi tạo mới.
+        </p>
+
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="isMedium"
+                   id="flexSwitchCheckDefault" style="margin-left:0px" onchange="visible_medium(this)" >
+            <label class="form-check-label" for="flexSwitchCheckDefault" style="margin-left:45px">Thêm trạm dừng</label>
+        </div>
+        <div class="form-group ">
+            <label class="control-label">Số lượng <strong style="color: red">*</strong>
+            </label>
+            <div id='choose'>
+                <div class="form-check">
+                    <input class="form-check-input input-number" type="radio" value="1"
+                           name="number" id="1" disabled onchange="number_of_mediums(1)">
+                    <label class="form-check-label" for="1">
+                        1
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input input-number" type="radio" value="2"
+                           name="number" id="2" disabled onchange="number_of_mediums(2)">
+                    <label class="form-check-label" for="2">
+                        2
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="medium" class="medium"> </div>
+
+        <hr>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 submit-row">
+                <input type="submit" class="btn btn-primary" value="Lưu">
+                <a href="/admin/flights/" class="btn btn-danger" role="button">Hủy bỏ</a>
+            </div>
+        </div>
+    </fieldset>
+</form>
+{% else %}
+<h1 class="text-danger">Rất tiếc, bạn không có quyền thực thi trang này</h1>
+<h2>Quay về <a href="/" class="text-info">TRANG CHỦ</a> để ĐĂNG NHẬP</h2>
+{% endif %}
+
+{% endblock %}
